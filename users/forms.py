@@ -29,10 +29,12 @@ class UserRegisterForm(UserCreationForm):
                                                              'placeholder': 'Введите пароль'}))
     password2 = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control py-4',
                                                              'placeholder': 'Введите подтверждение'}))
+    age = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control py-4',
+                                                             'placeholder': 'Введите возраст'}))
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name','last_name', 'password1', 'password2')
+        fields = ('username', 'email', 'first_name','last_name', 'password1', 'password2', 'age')
 
 
 class UserProfileForm(UserChangeForm):
@@ -44,10 +46,11 @@ class UserProfileForm(UserChangeForm):
     last_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4',
                                                               'placeholder': 'Введите фамилию'}))
     image = forms.ImageField(widget=forms.FileInput(attrs={'class': 'custom-file-input'}), required=False)
+    age = forms.CharField(widget=forms.NumberInput(attrs={'class': 'form-control py-4', 'placeholder': 'Введите возраст'}))
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name','last_name', 'image')
+        fields = ('username', 'email', 'first_name','last_name', 'image', 'age')
 
     # def clean_image(self):
     #     data = self.cleaned_data['image']
