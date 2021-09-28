@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -21,7 +21,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-rd=@+ig6wj#f+)0e7^1hat4ura4791k4oo-8ro#3l(j!xrt_11'
-
+from  dotenv import load_dotenv
+load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -67,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'products.contex_processors.basket'
             ],
         },
     },
@@ -136,3 +138,16 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL='users.User'
 LOGIN_URL = '/users/login/'
+
+DOMAIN_NAME = 'http://localhost:8000'
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = '25'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True if os.getenv('EMAIL_USE_SSL') == 'True' else False
+
+# EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
+# python -m smtpd -n -c DebuggingServer localhost:25
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = 'tmp/email-messages/'
