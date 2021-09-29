@@ -3,7 +3,8 @@ import random
 
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
 from django import forms
-from .models import User
+from .models import User, UserProfile
+
 
 
 class UserLoginForm(AuthenticationForm):
@@ -101,3 +102,16 @@ class UserProfileForm(UserChangeForm):
             raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
 
         return data
+
+
+class UserProfileEditForm(forms.ModelForm):
+
+    class Meta:
+        model = UserProfile
+        fields = ('tagline', 'about_me', 'gender')
+
+
+    def __init__(self, *args, **kwargs):
+        super(UserProfileEditForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control py-4'
