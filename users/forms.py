@@ -59,6 +59,15 @@ class UserRegisterForm(UserCreationForm):
         return user
 
 
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        user = User.objects.filter(email=data)
+        if len(user):  # на этапе регистрации её не должно быть
+            raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
+
+        return data
+
+
 class UserProfileForm(UserChangeForm):
 
     username = forms.CharField(widget=forms.TextInput(attrs={'readonly': True}))
@@ -85,9 +94,10 @@ class UserProfileForm(UserChangeForm):
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'
 
 
-    # def clean_image(self):
-    #     data = self.cleaned_data['image']
-    #     if data.size > 1024:
-    #         raise forms.ValidationError('Слишком большой размер файла!')
-    #
-    #     return data
+    def clean_email(self):
+        data = self.cleaned_data['email']
+        user = User.objects.filter(email=data)
+        if len(user) > 1: # на этапе редактирования профиля не более 1
+            raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
+
+        return data
