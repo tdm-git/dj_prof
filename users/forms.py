@@ -60,13 +60,13 @@ class UserRegisterForm(UserCreationForm):
         return user
 
 
-    def clean_email(self):
-        data = self.cleaned_data['email']
-        user = User.objects.filter(email=data)
-        if len(user):  # на этапе регистрации её не должно быть
-            raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
-
-        return data
+    # def clean_email(self):
+    #     data = self.cleaned_data['email']
+    #     user = User.objects.filter(email=data)
+    #     if len(user):  # на этапе регистрации её не должно быть
+    #         raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
+    #
+    #     return data
 
 
 class UserProfileForm(UserChangeForm):
@@ -77,10 +77,11 @@ class UserProfileForm(UserChangeForm):
     last_name = forms.CharField(widget=forms.TextInput())
     image = forms.ImageField(widget=forms.FileInput(), required=False)
     age = forms.CharField(widget=forms.NumberInput())
+    lange = forms.CharField(widget=forms.TextInput())
 
     class Meta:
         model = User
-        fields = ('username', 'email', 'first_name','last_name', 'image', 'age')
+        fields = ('username', 'email', 'first_name','last_name', 'image', 'age', 'lange')
 
 
     def __init__(self, *args, **kwargs):
@@ -90,18 +91,19 @@ class UserProfileForm(UserChangeForm):
         self.fields['first_name'].widget.attrs['placeholder'] = 'Введите имя'
         self.fields['last_name'].widget.attrs['placeholder'] = 'Введите фамилию'
         self.fields['age'].widget.attrs['placeholder'] = 'Введите возраст'
+        self.fields['lange'].widget.attrs['placeholder'] = 'Введите language'
         for fild_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
         self.fields['image'].widget.attrs['class'] = 'custom-file-input'
 
 
-    def clean_email(self):
-        data = self.cleaned_data['email']
-        user = User.objects.filter(email=data)
-        if len(user) > 1: # на этапе редактирования профиля не более 1
-            raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
-
-        return data
+    # def clean_email(self):
+    #     data = self.cleaned_data['email']
+    #     user = User.objects.filter(email=data)
+    #     if len(user) > 1: # на этапе редактирования профиля не более 1
+    #         raise forms.ValidationError('Уже есть пользователь с таким почтовым ящиком !')
+    #
+    #     return data
 
 
 class UserProfileEditForm(forms.ModelForm):
@@ -115,3 +117,4 @@ class UserProfileEditForm(forms.ModelForm):
         super(UserProfileEditForm, self).__init__(*args, **kwargs)
         for field_name, field in self.fields.items():
             field.widget.attrs['class'] = 'form-control py-4'
+        self.fields['gender'].widget.attrs['class'] = 'form-control'
