@@ -18,12 +18,12 @@ from django.urls import path
 
 app_name = 'users'
 
-from users.views import LoginListView, RegisterFormView, Logout, ProfileFormView, verify
+from users.views import LoginListView, RegisterFormView, Logout, ProfileFormView
 
 urlpatterns = [
     path('login/', LoginListView.as_view(), name='login'),
     path('register/', RegisterFormView.as_view(), name='register'),
     path('profile/', ProfileFormView.as_view(), name='profile'),
     path('logout/', Logout.as_view(), name='logout'),
-    path('verify/<str:email>/<str:activation_key>/', verify, name='verify'),
+    path('verify/<str:email>/<str:activation_key>/', RegisterFormView.verify, name='verify'),
 ]
