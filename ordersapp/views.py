@@ -1,6 +1,6 @@
 from django.db import transaction
 from django.forms import inlineformset_factory
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
@@ -12,6 +12,8 @@ from ordersapp.forms import OrderItemForm
 from ordersapp.models import Order, OrderItem
 from django.dispatch import receiver
 from django.db.models.signals import pre_save, pre_delete
+
+from products.models import Products
 
 
 class OrderList(ListView):
@@ -143,3 +145,13 @@ def product_quantity_update_save(sender, update_fields, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
    instance.product.quantity += instance.quantity
    instance.product.save()
+
+
+def get_product_price(request, pk):
+    if request.is_ajax():
+        product = Products.objects.filter(pk=pk)
+        if product:
+            return JsonResponse({'price': product[0].price})
+        return JsonResponse({'price': 0})
+    return JsonResponse({'price': 0})
+
