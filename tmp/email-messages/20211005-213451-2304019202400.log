@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0J/QvtC00YLQstC10YDQttC00LXQvdC40LUg0YPRh9C10YLQvdC+0Lkg0LfQsNC/?=
+ =?utf-8?b?0LjRgdC4IGFzZGRm?=
+From: django@gb.local
+To: asddf@mail.ru
+Date: Tue, 05 Oct 2021 16:34:51 -0000
+Message-ID: <163345169147.13756.6880338682503237846@DESKTOP-KL7PQIR>
+
+Для подтверждения учетной записи asddf перейдите по ссылке: 
+ http://localhost:8000/users/verify/asddf@mail.ru/fb6f2033dfacf4d05b2ff8777e901e94d1d5c217/
+-------------------------------------------------------------------------------
