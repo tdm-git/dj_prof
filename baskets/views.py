@@ -36,7 +36,7 @@ def basket_edit(request, id, quantity):
         else:
             basket.delete()
 
-        baskets = Basket.objects.filter(user=request.user)
-        contex = { 'baskets': baskets }
-        result = render_to_string('baskets/basket.html', contex)
+        # baskets = Basket.objects.filter(user=request.user)
+        # contex = { 'baskets': baskets }
+        result = render_to_string('baskets/basket.html', request=request)
         return JsonResponse({'result': result})
