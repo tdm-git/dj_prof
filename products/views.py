@@ -6,10 +6,35 @@ from django.views.generic import FormView
 
 from .models import ProductsCategory, Products
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
-
+from django.conf import settings
+from django.core.cache import cache
 
 # Create your views here.
 # Контроллер функции
+def get_links_category():
+   if settings.LOW_CACHE:
+       key = 'links_category'
+       links_category = cache.get(key)
+       if links_category is None:
+           links_category = ProductsCategory.objects.filter(is_active=True)
+           cache.set(key, links_category)
+       return links_category
+   else:
+       return ProductsCategory.objects.filter(is_active=True)
+
+
+def get_links_products():
+   if settings.LOW_CACHE:
+       key = 'links_products'
+       links_products = cache.get(key)
+       if links_products is None:
+           links_products = Products.objects.filter(is_active=True, category__is_active=True).select_related('category')
+           cache.set(key, links_products)
+       return links_products
+   else:
+       return Products.objects.filter(is_active=True, category__is_active=True).select_related('category')
+
+
 def index(request):
     context = {'title': 'Главная',
                'curr_date': date.today()}#
@@ -28,7 +53,8 @@ def products(request, id=None, page=1):
 
     content = {'title': 'Каталог',
                'curr_date': date.today(),
-               'categories': ProductsCategory.objects.all(),
+               'categories': get_links_category(),
+               # 'categories': ProductsCategory.objects.all(),
                'products': products_paginator,  # Products.objects.all()
               }
 

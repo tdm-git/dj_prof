@@ -5,6 +5,7 @@ from django.db import models
 class ProductsCategory(models.Model):
     name = models.CharField(max_length=64)
     description = models.CharField(max_length=128, blank=True, null=True)
+    is_active = models.BooleanField(default=True, db_index=True)
 
     def __str__(self):
         return self.name
