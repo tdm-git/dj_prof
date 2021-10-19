@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from datetime import date
 
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 
 from .models import ProductsCategory, Products
 from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger
@@ -33,6 +33,18 @@ def get_links_products():
        return links_products
    else:
        return Products.objects.filter(is_active=True, category__is_active=True).select_related('category')
+
+
+def get_product(pk):
+   if settings.LOW_CACHE:
+       key = f'product_{pk}'
+       product = cache.get(key)
+       if product is None:
+           product = get_object_or_404(Products, pk=pk)
+           cache.set(key, product)
+       return product
+   else:
+       return get_object_or_404(Products, pk=pk)
 
 
 def index(request):
@@ -73,3 +85,15 @@ def products(request, id=None, page=1):
 #         context['categories'] = ProductsCategory.objects.all()
 #         context['products_paginator'] = Paginator(Products.objects.all(), per_page=3)
 #         return context
+
+
+class ProductDetail(DetailView):
+    model = Products
+    template_name = 'products/product_detail.html'
+    context_object_name = 'product'
+
+    def get_context_data(self, category_id=None, *args, **kwargs):
+        context = super().get_context_data()
+        context['product'] = get_product(self.kwargs.get('pk'))
+        context['categories'] = ProductsCategory.objects.all()
+        return context

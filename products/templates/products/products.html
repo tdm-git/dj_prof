@@ -67,9 +67,12 @@
                                      alt="">
                             </a>
                             <div class="card-body">
-                                <h4 class="card-title">
-                                    <a href="#">{{ product.name }}</a>
-                                </h4>
+                                 <h4 class="card-title">
+                                        <a href="{% url 'products:detail' product.id %}">{{ product.name }}</a>
+                                 </h4>
+{#                                <h4 class="card-title">#}
+{#                                    <a href="#">{{ product.name }}</a>#}
+{#                                </h4>#}
                                 <h5>{{ product.price }} руб.</h5>
                                 <p class="card-text">{{ product.description }}</p>
                                 <p class="card-text">{{ product.category.name }}</p>
