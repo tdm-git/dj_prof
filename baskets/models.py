@@ -1,6 +1,7 @@
 from django.db import models
 from users.models import User
 from products.models import Products
+from django.utils.functional import cached_property
 
 
 # class BasketQuerySet(models.QuerySet):
@@ -13,7 +14,7 @@ from products.models import Products
 
 class Basket(models.Model):
     # objects = BasketQuerySet.as_manager()
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='basket')
     product = models.ForeignKey(Products, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=0)
 
@@ -23,6 +24,10 @@ class Basket(models.Model):
     def __str__(self):
         return f'Корзина для {self.user.username} | Продукты {self.product.name}'
 
+    @cached_property
+    def get_items_cached(self):
+        return self.user.basket.select_related()
+
 
     def sum_product(self):
         # return 1
@@ -30,7 +35,8 @@ class Basket(models.Model):
 
 
     def sum_quantity(self):
-        items = Basket.objects.filter(user=self.user)
+        # items = Basket.objects.filter(user=self.user)
+        items = self.get_items_cached
         total_quantity = 0
         for i in items:
             total_quantity += i.quantity
@@ -38,7 +44,8 @@ class Basket(models.Model):
 
 
     def sum_cost(self):
-        items = Basket.objects.filter(user=self.user)
+        # items = Basket.objects.filter(user=self.user)
+        items = self.get_items_cached
         total_cost = 0
         for i in items:
             total_cost += i.sum_product()
