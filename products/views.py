@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from datetime import date
 
+from django.views.decorators.cache import cache_page
 from django.views.generic import FormView, DetailView
 
 from .models import ProductsCategory, Products
@@ -52,7 +53,7 @@ def index(request):
                'curr_date': date.today()}#
     return render(request, 'products/index.html', context)
 
-
+@cache_page(3600)
 def products(request, id=None, page=1):
     products = Products.objects.filter(category_id=id).select_related('category') if id != None else Products.objects.all().select_related('category')
     paginator = Paginator(products, per_page=3)
