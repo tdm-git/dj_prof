@@ -23,10 +23,11 @@ class CategoryAdminForm(forms.ModelForm):
 
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Наименование'}))
     description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control py-4', 'placeholder': 'Описание'}))
+    discount = forms.IntegerField(widget=forms.NumberInput(), label='скидка', required=False, min_value=0, max_value=90, initial=0)
 
     class Meta:
         model = ProductsCategory
-        fields = ('name', 'description')
+        fields = ('name', 'description', 'discount')
 
 
 class ProductsAdminForm(forms.ModelForm):

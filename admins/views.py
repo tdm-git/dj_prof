@@ -1,3 +1,5 @@
+from django.db import connection
+from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse,reverse_lazy
@@ -150,6 +152,12 @@ class CategoriesCreateView(CreateView):
         return super(CategoriesCreateView, self).dispatch(request, *args, **kwargs)
 
 
+def db_profile_by_type(prefix, type, queries):
+   update_queries = list(filter(lambda x: type in x['sql'], queries))
+   print(f'db_profile {type} for {prefix}:')
+   [print(query['sql']) for query in update_queries]
+
+
 class CategoriesUpdateView(UpdateView):
     model = ProductsCategory
     template_name = 'admins/admin-category-update-delete.html'
@@ -164,6 +172,14 @@ class CategoriesUpdateView(UpdateView):
     @method_decorator(user_passes_test(lambda u: u.is_superuser))
     def dispatch(self, request, *args, **kwargs):
         return super(CategoriesUpdateView, self).dispatch(request, *args, **kwargs)
+
+    def form_valid(self, form):
+        if 'discount' in form.cleaned_data:
+            discount = form.cleaned_data['discount']
+            if discount:
+                self.object.products_set.update(price=F('price') * (1 - discount / 100))
+                db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+        return HttpResponseRedirect(self.get_success_url())
 
 
 class CategoriesDeleteView(DeleteView):
