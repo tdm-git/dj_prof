@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0J/QvtC00YLQstC10YDQttC00LXQvdC40LUg0YPRh9C10YLQvdC+0Lkg0LfQsNC/?=
+ =?utf-8?b?0LjRgdC4IGFkbWluMTEx?=
+From: django@gb.local
+To: admin@mail.ru
+Date: Wed, 29 Sep 2021 14:14:16 -0000
+Message-ID: <163292485653.15344.4752659853405892916@DESKTOP-KL7PQIR>
+
+Для подтверждения учетной записи admin111 перейдите по ссылке: 
+ http://localhost:8000/users/verify/admin@mail.ru/0fc04e8c9ab63e7bb9f2c7f1137464c55a5163d4/
+-------------------------------------------------------------------------------

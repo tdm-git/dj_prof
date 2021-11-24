@@ -1,0 +1,14 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Subject: 
+ =?utf-8?b?0J/QvtC00YLQstC10YDQttC00LXQvdC40LUg0YPRh9C10YLQvdC+0Lkg0LfQsNC/?=
+ =?utf-8?b?0LjRgdC4IGpvaG5xd2U=?=
+From: django@gb.local
+To: johnqwe@mail.ru
+Date: Tue, 05 Oct 2021 16:30:31 -0000
+Message-ID: <163345143166.18264.17710823172411417520@DESKTOP-KL7PQIR>
+
+Для подтверждения учетной записи johnqwe перейдите по ссылке: 
+ http://localhost:8000/users/verify/johnqwe@mail.ru/fae178e88353b9fd31cadcab34c9f4fe52192ae0/
+-------------------------------------------------------------------------------
